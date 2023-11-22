@@ -300,7 +300,16 @@ printf  <-  function(num, scale = "base", dec = 2, format = T) {
     }
 }
 
-
+printf.perc  <-  function(num, dec = 2) {
+  num.round <- num * 100 %>% round(dec)
+  num.format <- case_when(is.na(num.round) ~ NA_character_,
+                          num.round == 0 ~ "-",
+                          T ~ num.round %>% format(digits = dec, nsmall = dec, big.mark = ",") %>%
+                            paste("%") %>% str_squish())
+  
+  ###... Return
+  return(num.format)
+}
 ###......... OUTERSECT: it's the opposite of intersect. Gives you the non-common elements of two vectors
 ###......... p.s. "outersect" is very etymologically incorrect, since the opposite of "inter" in latin is not "outer"
 ###......... of course, but a creative guy on StackOverflow came up with this name and well, it was effective
